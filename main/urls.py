@@ -21,5 +21,11 @@ from . import views
 app_name = "main"
 
 urlpatterns = [
-    
+    path("", views.HomeListView.as_view(), name="home"),
+    path("s/", views.SearchListView.as_view(), name="search"),
+    path("items/", views.ItemListView.as_view(), name="items"),
+    path("items/create/", views.ItemCreateView.as_view(), name="item_create"),
+    path("items/<slug>/", views.ItemDetailView.as_view(), name="item_detail"),
+    path("items/<slug>/update", views.ItemUpdateView.as_view(), name="item_update"),
+    path("items/<slug>/delete", views.ItemDeleteView.as_view(), name="item_delete"),
 ]

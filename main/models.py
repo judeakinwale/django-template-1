@@ -15,6 +15,7 @@ class Item(models.Model):
     end_time = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     image = models.ImageField(upload_to="main/static/items/img", default="main/static/items/img/defalt.jpg", height_field=None, width_field=None, max_length=None, null=True, blank=True)
     slug = models.SlugField(unique=True)
+    #TODO: Add location
     timestamp = models.DateTimeField(auto_now=True, auto_now_add=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     active = models.BooleanField(default=True)

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<form action="/" method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete <strong>{{object.title}}</strong></p>
+    <button type="submit">Confirm</button> <a href="../">Cancel</a>
+</form>
+{% endblock content %}

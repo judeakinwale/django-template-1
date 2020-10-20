@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{{object_list}}
+{% for item in object_list %}
+<a href="{{item.get_absolute_url}}">{{item.title}}</a>
+<hr>
+{% endfor %}
+{% endblock content %}

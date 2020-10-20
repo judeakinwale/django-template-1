@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'main:search' %}" method="get">
+    <input type="search" name="q" placeholder="Search" aria-label="search">
+</form>
+{{object_list}}
+{% for item in object_list %}
+<a href="{{item.get_absolute_url}}">{{item.title}}</a>
+<hr>
+{% endfor %}
+{% endblock content %}

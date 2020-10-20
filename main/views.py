@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.db.models import Q
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, DeleteView, CreateView
-from .models import Item, ItemImage, Category, Label, 
+from .models import Item, ItemImage, Category, Label 
 from .forms import ItemForm, CheckoutForm
 
 # Create your views here.
@@ -13,10 +14,10 @@ class SearchListView(ListView):
     template_name = "main/search.html"
 
     def get_queryset(self):
-        query = self.reqest.GET.get('q')
+        query = self.request.GET.get('q')
         object_list = Item.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
-        return super().get_queryset()
-        # return object_list
+        # return super().get_queryset()
+        return object_list
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
