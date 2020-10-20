@@ -140,6 +140,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackends',
 ]
 
+ACCOUNT_SESSION_REMEMBER = None
+
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {

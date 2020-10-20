@@ -6,7 +6,7 @@ from main.models import Item
 
 
 class OrderItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
@@ -35,7 +35,7 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField("OrderItem")
     start_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     ordered_date = models.DateTimeField()
@@ -59,7 +59,7 @@ class Order(models.Model):
 
 
 class BillingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     street_address = models.CharField(max_length=150)
     apartment_address = models.CharField(max_length=150, null=True, blank=True)
     #TODO 
@@ -78,7 +78,7 @@ class BillingAddress(models.Model):
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     charge_id = models.CharField(max_length=150)
     amount = models.FloatField()
     timestamp = models.DateTimeField(auto_now=True, auto_now_add=False)
