@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, DeleteView, CreateView
 from .models import Item, ItemImage, Category, Label 
-from .forms import ItemForm, CheckoutForm
+from .forms import ItemForm
 
 # Create your views here.
 

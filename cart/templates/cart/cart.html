@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% for item in object_list.items.all %}
+{{item.item.title}}
+X {{item.quantity}}
+<hr>
+<a href="{% url 'cart:add_to_cart' item.item.slug %}">+</a> | <a href="{% url 'cart:remove_single_item_from_cart' item.item.slug %}">-</a>
+<hr>
+<a href="{% url 'cart:remove_from_cart' item.item.slug %}">Remove</a>
+<br>
+<br>
+<hr>
+<hr>
+{% endfor %}
+{% endblock content %}

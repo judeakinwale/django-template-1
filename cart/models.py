@@ -49,7 +49,7 @@ class Order(models.Model):
         verbose_name_plural = "Orders"
 
     def __str__(self):
-        return self.request.user.username
+        return self.user.username
 
     def get_total(self):
         total = 0
@@ -74,7 +74,7 @@ class BillingAddress(models.Model):
         verbose_name_plural = "Addresses"
 
     def __str__(self):
-        return request.user.username
+        return self.user.username
 
 
 class Payment(models.Model):
@@ -90,5 +90,5 @@ class Payment(models.Model):
         verbose_name_plural = "Payments"
 
     def __str__(self):
-        return self.request.user.username
+        return self.user.username
 

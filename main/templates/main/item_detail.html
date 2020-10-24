@@ -14,4 +14,6 @@
 <hr>
 {{object.price}}
 <hr>
+<a href="{% url 'cart:add_to_cart' item.slug %}">Add to cart</a>
+<hr>
 {% endblock content %}

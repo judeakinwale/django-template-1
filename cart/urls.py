@@ -21,5 +21,9 @@ from . import views
 app_name = "cart"
 
 urlpatterns = [
-
+    path("cart/", views.OrderListView.as_view(), name="cart"),
+    path("cart/add/<slug>/", views.add_to_cart, name="add_to_cart"),
+    path("cart/remove/<slug>/", views.remove_from_cart, name="remove_from_cart"),
+    path("cart/remove-single/<slug>/", views.remove_single_item_from_cart, name="remove_single_item_from_cart"),
+    path("checkout/", views.CheckoutView.as_view(), name="checkout"),
 ]

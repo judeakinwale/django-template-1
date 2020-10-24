@@ -5,6 +5,9 @@
 {{object_list}}
 {% for item in object_list %}
 <a href="{{item.get_absolute_url}}">{{item.title}}</a>
+<br>
+<a href="{% url 'cart:add_to_cart' item.slug %}">Add to cart</a>
 <hr>
+<br>
 {% endfor %}
 {% endblock content %}

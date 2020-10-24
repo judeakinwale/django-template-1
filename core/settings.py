@@ -128,17 +128,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATICFILES_DIRS = 
+# STATIC_ROOT = 
 MEDIA_URL = '/media/'
+# MEDIA_ROOT = 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-AUTHENTICATION_BACKENDS = [
+AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackends',
-]
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 ACCOUNT_SESSION_REMEMBER = None
 
