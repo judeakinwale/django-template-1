@@ -15,7 +15,6 @@ class OrderListView(ListView):
     def get_queryset(self, *args, **kwargs):
         try:
             object_list = Order.objects.get(user=self.request.user, ordered=False)
-            
         except:
             object_list = None
         return object_list
@@ -23,7 +22,6 @@ class OrderListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            # self.get_context_data
             self.get_queryset()
             context["message"] = "My cart"
         except:
@@ -32,73 +30,134 @@ class OrderListView(ListView):
         return context
     
 
+# def add_to_cart(request, slug):
+#     item = get_object_or_404(Item, slug=slug)
+#     order_item, created = OrderItem.objects.get_or_create(item=item, user=request.user, ordered=False)
+#     try:
+#         order_queryset = Order.objects.filter(user=request.user, ordered=False)
+#         order = order_queryset[0]
+#         if order.items.filter(item__slug=item.slug).exists():
+#             order_item.quantity += 1
+#             order_item.save()
+#             order.items.add(order_item)
+#             messages.info(request, 'This item quantity was updated')
+#             return redirect("cart:cart")
+#         else:
+#             order.items.add(order_item)
+#             messages.info(request, 'This item was added to your cart')
+#             return redirect("cart:cart")
+#     except:
+#         ordered_date = timezone.now()
+#         order = Order.objects.create(user=request.user, ordered_date=ordered_date)
+#         order.items.add(order_item)
+#         messages.info(request, 'This item was added to your cart')
+#         return redirect("cart:cart")
+
+
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
+    order_queryset = Order.objects.filter(user=request.user, ordered=False)
+    order = order_queryset[0]
     order_item, created = OrderItem.objects.get_or_create(item=item, user=request.user, ordered=False)
-    try:
-        order_queryset = Order.objects.filter(user=request.user, ordered=False)
-        order = order_queryset[0]
-        try:
-            order.items.filter(item__slug=slug)
+    order_item_exists = order.items.filter(item__slug=slug).exists()
+    if order_queryset.exists():
+        if order_item_exists:
             order_item.quantity += 1
             order_item.save()
             order.items.add(order_item)
             messages.info(request, 'This item quantity was updated')
-            return redirect("cart:cart")
-        except:
+        else:
             order.items.add(order_item)
-            # order.items.save()
             messages.info(request, 'This item was added to your cart')
-            return redirect("cart:cart")
-    except:
+    else:
         ordered_date = timezone.now()
         order = Order.objects.create(user=request.user, ordered_date=ordered_date)
         order.items.add(order_item)
         messages.info(request, 'This item was added to your cart')
-        return redirect("cart:cart")
+    return redirect("cart:cart")
+
+
+# def remove_from_cart(request, slug):
+#     item = get_object_or_404(Item, slug=slug)
+#     order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)
+#     try:
+#         order_queryset = Order.objects.filter(user=request.user, ordered=False)
+#         order = order_queryset[0]
+#         if order.items.filter(item__slug=item.slug).exists():
+#             order.items.remove(order_item[0])
+#             messages.info(request, 'This item was removed from your cart')
+#             return redirect("cart:cart")
+#         else:
+#             messages.info(request, 'This item was not in your cart')
+#             return redirect("cart:cart")
+#     except:
+#         messages.error(request, 'You do not have an active order')
+#         return redirect("cart:cart")
 
 
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
-    order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)
-    try:
-        order_queryset = Order.objects.filter(user=request.user, ordered=False)
-        order = order_queryset[0]
-        try:
-            order.items.filter(item__slug=slug)
-            order.items.remove(order_item[0])
+    order_queryset = Order.objects.filter(user=request.user, ordered=False)
+    order = order_queryset[0]
+    order_item_queryset = OrderItem.objects.filter(item=item, user=request.user, ordered=False)
+    order_item = order_item_queryset[0]
+    order_item_exists = order.items.filter(item__slug=slug).exists()
+    if order_queryset.exists():
+        if order_item_exists:
+            order.items.remove(order_item)
             messages.info(request, 'This item was removed from your cart')
-            return redirect("cart:cart")
-        except:
+        else:
             messages.info(request, 'This item was not in your cart')
-            return redirect("cart:cart")
-    except:
+    else:
         messages.error(request, 'You do not have an active order')
-        return redirect("cart:cart")
+    return redirect("cart:cart")
 
+
+# def remove_single_item_from_cart(request, slug):
+#     item = get_object_or_404(Item, slug=slug)
+#     order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
+#     try:
+#         order_queryset = Order.objects.filter(user=request.user, ordered=False)
+#         order = order_queryset[0]
+#         if order.items.filter(item__slug=item.slug).exists():
+#             if order_item.quantity > 1:
+#                 order_item.quantity -= 1
+#                 order_item.save()
+#                 # order.items.add(order_item[0])
+#                 # print(order_item[0].quantity)
+#                 messages.info(request, 'This item quantity was updated')
+#             else:
+#                 order.items.remove(order_item)
+#                 messages.info(request, 'This item was removed from your cart')
+#             return redirect("cart:cart")
+#         else:
+#             messages.info(request, 'This item was not in your cart')
+#             return redirect("cart:cart")
+#     except:
+#         messages.error(request, 'You do not have an active order')
+#         return redirect("cart:cart")
 
 def remove_single_item_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
-    order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)
-    try:
-        order_queryset = Order.objects.filter(user=request.user, ordered=False)
-        order = order_queryset[0]
-        try:
-            order.items.filter(item__slug=slug)
+    order_queryset = Order.objects.filter(user=request.user, ordered=False)
+    order = order_queryset[0]
+    order_item_queryset = OrderItem.objects.filter(item=item, user=request.user, ordered=False)
+    order_item = order_item_queryset[0]
+    order_item_exists = order.items.filter(item__slug=slug).exists()
+    if order_queryset.exists():
+        if order_item_exists:
             if order_item.quantity > 1:
                 order_item.quantity -= 1
                 order_item.save()
                 messages.info(request, 'This item quantity was updated')
             else:
-                order.items.remove(order_item[0])
+                order.items.remove(order_item)
                 messages.info(request, 'This item was removed from your cart')
-            return redirect("cart:cart")
-        except:
+        else:
             messages.info(request, 'This item was not in your cart')
-            return redirect("cart:cart")
-    except:
+    else:
         messages.error(request, 'You do not have an active order')
-        return redirect("cart:cart")
+    return redirect("cart:cart")
 
 
 class CheckoutView(View):
